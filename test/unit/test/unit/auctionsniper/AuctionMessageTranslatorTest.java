@@ -7,13 +7,12 @@ import org.jivesoftware.smack.packet.Message;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
 public class AuctionMessageTranslatorTest {
-  private final Mockery context = new JUnit4Mockery();
+  private final Mockery context = new Mockery();
   private final AuctionEventListener listener = context.mock(AuctionEventListener.class);
 
   private static final Chat UNUSED_CHAT = null;
