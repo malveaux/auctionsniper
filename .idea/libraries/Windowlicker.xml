@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Windowlicker">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/develop/windowlicker-core-DEV.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/develop/windowlicker-swing-DEV.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
