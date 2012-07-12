@@ -5,8 +5,8 @@ import com.objogate.wl.swing.driver.JFrameDriver;
 import com.objogate.wl.swing.driver.JLabelDriver;
 import com.objogate.wl.swing.gesture.GesturePerformer;
 
-import static test.endtoend.auctionsniper.ApplicationRunner.MAIN_WINDOW_NAME;
-import static test.endtoend.auctionsniper.ApplicationRunner.SNIPER_STATUS_NAME;
+import static auctionsniper.ui.MainWindow.MAIN_WINDOW_NAME;
+import static auctionsniper.ui.MainWindow.SNIPER_STATUS_NAME;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class AuctionSniperDriver extends JFrameDriver {
