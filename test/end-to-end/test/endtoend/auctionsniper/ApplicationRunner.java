@@ -11,7 +11,7 @@ public class ApplicationRunner {
   public static final String SNIPER_ID = "sniper";
   public static final String SNIPER_PASSWORD = "sniper";
   private AuctionSniperDriver driver;
-  public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME +"/" + AUCTION_RESOURCE;
+  public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME + "/" + AUCTION_RESOURCE;
 
   public void startBiddingIn(final FakeAuctionServer auction) {
     Thread thread = new Thread("Test Application") {

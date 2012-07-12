@@ -50,7 +50,7 @@ public class FakeAuctionServer {
   }
 
   public void announceClosed() throws XMPPException {
-    currentChat.sendMessage(new Message());
+    currentChat.sendMessage("SOLVersion: 1.1; Event: CLOSE;");
   }
 
   public void stop() {
@@ -60,11 +60,11 @@ public class FakeAuctionServer {
   public void reportPrice(int price, int increment, String bidder) throws XMPPException {
     currentChat.sendMessage(
       String.format("SOLVersion: 1.1; Event: PRICE; "
-        + "CurrentPrice: %d; Increment: %d; Bidder: %s;", price, increment, bidder ) );
+        + "CurrentPrice: %d; Increment: %d; Bidder: %s;", price, increment, bidder));
   }
 
   public void hasReceivedBid(int bid, String sniperId) throws InterruptedException {
-    assertThat( currentChat.getParticipant(), equalTo(sniperId));
+    assertThat(currentChat.getParticipant(), equalTo(sniperId));
 
     messageListener.receivesAMessageMatching(sniperId, equalTo(format(Main.BID_COMMAND_FORMAT, bid)));
   }
