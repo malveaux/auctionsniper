@@ -9,7 +9,8 @@ public class SnipersTableModel extends AbstractTableModel {
   private String state = MainWindow.STATUS_JOINING;
   private SniperSnapshot snapshot = STARTING_UP;
 
-  private static String[] STATUS_TEXT = {MainWindow.STATUS_JOINING, MainWindow.STATUS_BIDDING, MainWindow.STATUS_WINNING};
+  private static String[] STATUS_TEXT = {MainWindow.STATUS_JOINING, MainWindow.STATUS_BIDDING,
+    MainWindow.STATUS_WINNING, MainWindow.STATUS_LOST, MainWindow.STATUS_WON};
 
   @Override
   public int getColumnCount() {
