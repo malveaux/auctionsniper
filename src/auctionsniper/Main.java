@@ -56,7 +56,7 @@ public class Main {
     Auction auction = new XMPPAuction(chat);
 
     chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
-      new AuctionSniper(auction, new SniperStateDisplayer())));
+      new AuctionSniper(itemId, auction, new SniperStateDisplayer())));
 
     auction.join();
   }
@@ -89,8 +89,13 @@ public class Main {
     }
 
     @Override
-    public void sniperBidding() {
-      showStatus(MainWindow.STATUS_BIDDING);
+    public void sniperBidding(final SniperState state) {
+      SwingUtilities.invokeLater(new Runnable() {
+        @Override
+        public void run() {
+          ui.sniperStatusChanged(state, MainWindow.STATUS_BIDDING);
+        }
+      });
     }
 
     @Override

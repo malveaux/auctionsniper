@@ -14,6 +14,7 @@
     <orderEntry type="library" name="Hamcrest" level="project" />
     <orderEntry type="library" name="Smack" level="project" />
     <orderEntry type="library" name="JMock" level="project" />
+    <orderEntry type="library" name="CommonsLang" level="project" />
   </component>
 </module>
 
