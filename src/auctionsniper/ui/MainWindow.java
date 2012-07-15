@@ -7,19 +7,19 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
   public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
+  public static final String APPLICATION_TITLE = "Auction Sniper";
 
   private final SnipersTableModel snipers;
   private static final String SNIPERS_TABLE_NAME = "Snipers";
 
   public MainWindow(SnipersTableModel snipers) {
-    super("Auction Sniper");
+    super(APPLICATION_TITLE);
     this.snipers = snipers;
     setName(MAIN_WINDOW_NAME);
     fillContentPane(makeSnipersTable());
     pack();
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
-
   }
 
   private void fillContentPane(JTable snipersTable) {
