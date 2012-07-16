@@ -1,6 +1,6 @@
 package test.endtoend.auctionsniper;
 
-import auctionsniper.Main;
+import auctionsniper.xmpp.XMPPAuction;
 import org.hamcrest.Matcher;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.Message;
@@ -47,7 +47,7 @@ public class FakeAuctionServer {
   }
 
   public void hasReceivedJoinRequestFromSniper(String sniperId) throws InterruptedException {
-    messageListener.receivesAMessageMatching(sniperId, equalTo(Main.JOIN_COMMAND_FORMAT));
+    messageListener.receivesAMessageMatching(sniperId, equalTo(XMPPAuction.JOIN_COMMAND_FORMAT));
   }
 
   public void announceClosed() throws XMPPException {
@@ -67,7 +67,7 @@ public class FakeAuctionServer {
   public void hasReceivedBid(int bid, String sniperId) throws InterruptedException {
     assertThat(currentChat.getParticipant(), equalTo(sniperId));
 
-    messageListener.receivesAMessageMatching(sniperId, equalTo(format(Main.BID_COMMAND_FORMAT, bid)));
+    messageListener.receivesAMessageMatching(sniperId, equalTo(format(XMPPAuction.BID_COMMAND_FORMAT, bid)));
   }
 
   public class SingleMessageListener implements MessageListener {
