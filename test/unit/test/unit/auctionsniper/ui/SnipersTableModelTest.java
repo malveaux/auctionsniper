@@ -1,5 +1,6 @@
 package test.unit.auctionsniper.ui;
 
+import auctionsniper.AuctionSniper;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 import auctionsniper.ui.Column;
@@ -28,6 +29,7 @@ public class SnipersTableModelTest {
   private TableModelListener listener = context.mock(TableModelListener.class);
   private final SnipersTableModel model = new SnipersTableModel();
 
+
   @Before
   public void attachModelListener() {
     model.addTableModelListener(listener);
@@ -40,15 +42,15 @@ public class SnipersTableModelTest {
 
   @Test
   public void setsSniperValuesInColumns() {
-    SniperSnapshot joining = SniperSnapshot.joining("item id");
-    SniperSnapshot bidding = joining.bidding(555, 666);
+    AuctionSniper sniper = new AuctionSniper("item id", null);
+    SniperSnapshot bidding = sniper.getSnapshot().bidding(555, 666);
 
     context.checking(new Expectations() {{
       allowing(listener).tableChanged(with(anyInsertionEvent()));
       one(listener).tableChanged(with(aRowChangedEvent()));
     }});
 
-    model.addSniper(joining);
+    model.sniperAdded(sniper);
     model.sniperStateChanged(bidding);
 
     assertRowMatchesSnapshot(0, bidding);
@@ -81,17 +83,17 @@ public class SnipersTableModelTest {
 
   @Test
   public void notifiesListenersWhenAddingASniper() {
-    SniperSnapshot joining = SniperSnapshot.joining("item123");
+    AuctionSniper sniper = new AuctionSniper("item123", null);
     context.checking(new Expectations() {{
       one(listener).tableChanged(with(anInsertionAtRow(0)));
     }});
 
     assertEquals(0, model.getRowCount());
 
-    model.addSniper(joining);
+    model.sniperAdded(sniper);
 
     assertEquals(1, model.getRowCount());
-    assertRowMatchesSnapshot(0, joining);
+    assertRowMatchesSnapshot(0, sniper.getSnapshot());
   }
 
   Matcher<TableModelEvent> anInsertionAtRow(final int row) {
@@ -104,8 +106,8 @@ public class SnipersTableModelTest {
       ignoring(listener);
     }});
 
-    model.addSniper(SniperSnapshot.joining("item 0"));
-    model.addSniper(SniperSnapshot.joining("item 1"));
+    model.sniperAdded(new AuctionSniper("item 0", null));
+    model.sniperAdded(new AuctionSniper("item 1", null));
 
     assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
     assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
@@ -117,15 +119,15 @@ public class SnipersTableModelTest {
       ignoring(listener);
     }});
 
-    SniperSnapshot sniper1Joining = SniperSnapshot.joining("item0");
-    SniperSnapshot sniper2Joining = SniperSnapshot.joining("item1");
-    model.addSniper(sniper1Joining);
-    model.addSniper(sniper2Joining);
+    AuctionSniper sniper1 = new AuctionSniper("item0", null);
+    AuctionSniper sniper2 = new AuctionSniper("item1", null);
+    model.sniperAdded(sniper1);
+    model.sniperAdded(sniper2);
 
-    SniperSnapshot sniper2Bidding = sniper2Joining.bidding(0, 0);
+    SniperSnapshot sniper2Bidding = sniper2.getSnapshot().bidding(0, 0);
     model.sniperStateChanged(sniper2Bidding);
 
-    assertRowMatchesSnapshot(0, sniper1Joining);
+    assertRowMatchesSnapshot(0, sniper1.getSnapshot());
     assertRowMatchesSnapshot(1, sniper2Bidding);
   }
 
