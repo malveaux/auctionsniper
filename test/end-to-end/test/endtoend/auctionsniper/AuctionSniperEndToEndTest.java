@@ -1,19 +1,17 @@
 package test.endtoend.auctionsniper;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class AuctionSniperEndToEndTest {
+  {
+    System.setProperty("com.objogate.wl.keyboard", "US");
+  }
+
   private final FakeAuctionServer auction = new FakeAuctionServer("item-54321");
   private final FakeAuctionServer auction2 = new FakeAuctionServer("item-65432");
 
   private final ApplicationRunner application = new ApplicationRunner();
-
-  @Before
-  public void setupKeyboard() {
-    System.setProperty("com.objogate.wl.keyboard", "US");
-  }
 
   @Test
   public void sniperJoinsAuctionUntilAuctionCloses() throws Exception {
