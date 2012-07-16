@@ -13,7 +13,7 @@ public class MainWindowTest {
   {
     System.setProperty("com.objogate.wl.keyboard", "US");
   }
-  
+
   private final SnipersTableModel tableModel = new SnipersTableModel();
   private final MainWindow mainWindow = new MainWindow(tableModel);
   private final AuctionSniperDriver driver = new AuctionSniperDriver(100);
