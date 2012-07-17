@@ -16,6 +16,7 @@
     <orderEntry type="library" name="Smack" level="project" />
     <orderEntry type="library" name="JMock" level="project" />
     <orderEntry type="library" name="CommonsLang" level="project" />
+    <orderEntry type="library" name="CommonsIO" level="project" />
   </component>
 </module>
 

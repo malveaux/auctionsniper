@@ -7,7 +7,9 @@ public interface AuctionEventListener extends EventListener {
     FromSniper, FromOtherBidder;
   }
 
+  void currentPrice(int price, int increment, PriceSource priceSource);
+
   void auctionClosed();
 
-  void currentPrice(int price, int increment, PriceSource priceSource);
+  void auctionFailed();
 }
