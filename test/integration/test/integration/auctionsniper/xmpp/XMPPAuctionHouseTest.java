@@ -2,6 +2,7 @@ package test.integration.auctionsniper.xmpp;
 
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
+import auctionsniper.xmpp.XMPPAuctionException;
 import auctionsniper.xmpp.XMPPAuctionHouse;
 import org.jivesoftware.smack.XMPPException;
 import org.junit.After;
@@ -21,7 +22,7 @@ public class XMPPAuctionHouseTest {
   private XMPPAuctionHouse auctionHouse;
 
   @Before
-  public void openConnection() throws XMPPException {
+  public void openConnection() throws XMPPAuctionException {
     auctionHouse = XMPPAuctionHouse.connect(FakeAuctionServer.XMPP_HOSTNAME, ApplicationRunner.SNIPER_ID, ApplicationRunner.SNIPER_PASSWORD);
   }
 
