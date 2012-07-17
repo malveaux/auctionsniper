@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import static auctionsniper.UserRequestListener.Item;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -28,7 +29,8 @@ public class SnipersTableModelTest {
   private final Mockery context = new Mockery();
   private TableModelListener listener = context.mock(TableModelListener.class);
   private final SnipersTableModel model = new SnipersTableModel();
-
+  private static final String ITEM_ID = "item 0";
+  private final AuctionSniper sniper = new AuctionSniper(new Item(ITEM_ID, 234), null);
 
   @Before
   public void attachModelListener() {
@@ -42,7 +44,6 @@ public class SnipersTableModelTest {
 
   @Test
   public void setsSniperValuesInColumns() {
-    AuctionSniper sniper = new AuctionSniper("item id", null);
     SniperSnapshot bidding = sniper.getSnapshot().bidding(555, 666);
 
     context.checking(new Expectations() {{
@@ -83,7 +84,6 @@ public class SnipersTableModelTest {
 
   @Test
   public void notifiesListenersWhenAddingASniper() {
-    AuctionSniper sniper = new AuctionSniper("item123", null);
     context.checking(new Expectations() {{
       one(listener).tableChanged(with(anInsertionAtRow(0)));
     }});
@@ -102,33 +102,38 @@ public class SnipersTableModelTest {
 
   @Test
   public void holdsSnipersInAdditionOrder() {
-    context.checking(new Expectations() {{
-      ignoring(listener);
-    }});
+    AuctionSniper sniper2 = new AuctionSniper(new Item("item 1", 345), null);
+    context.checking(new Expectations() {
+      {
+        ignoring(listener);
+      }
+    });
 
-    model.sniperAdded(new AuctionSniper("item 0", null));
-    model.sniperAdded(new AuctionSniper("item 1", null));
+    model.sniperAdded(sniper);
+    model.sniperAdded(sniper2);
 
-    assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
+    assertEquals(ITEM_ID, cellValue(0, Column.ITEM_IDENTIFIER));
     assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
   }
 
   @Test
   public void updatesCorrectRowForSniper() {
-    context.checking(new Expectations() {{
-      ignoring(listener);
-    }});
+    AuctionSniper sniper2 = new AuctionSniper(new Item("item 1", 345), null);
+    context.checking(new Expectations() {
+      {
+        allowing(listener).tableChanged(with(anyInsertionEvent()));
 
-    AuctionSniper sniper1 = new AuctionSniper("item0", null);
-    AuctionSniper sniper2 = new AuctionSniper("item1", null);
-    model.sniperAdded(sniper1);
+        one(listener).tableChanged(with(aChangeInRow(1)));
+      }
+    });
+
+    model.sniperAdded(sniper);
     model.sniperAdded(sniper2);
 
-    SniperSnapshot sniper2Bidding = sniper2.getSnapshot().bidding(0, 0);
-    model.sniperStateChanged(sniper2Bidding);
+    SniperSnapshot winning1 = sniper2.getSnapshot().winning(123);
+    model.sniperStateChanged(winning1);
 
-    assertRowMatchesSnapshot(0, sniper1.getSnapshot());
-    assertRowMatchesSnapshot(1, sniper2Bidding);
+    assertRowMatchesSnapshot(1, winning1);
   }
 
   private void assertRowMatchesSnapshot(int row, SniperSnapshot snapshot) {

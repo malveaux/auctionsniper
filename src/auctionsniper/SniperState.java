@@ -23,7 +23,7 @@ public enum SniperState {
   },
   LOSING {
     @Override
-  public SniperState whenAuctionClosed() {
+    public SniperState whenAuctionClosed() {
       return LOST;
     }
   },

@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+
+import static auctionsniper.UserRequestListener.Item;
 
 public class MainWindow extends JFrame {
   public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
@@ -37,23 +40,62 @@ public class MainWindow extends JFrame {
   }
 
   private JPanel makeControls() {
+    final JLabel itemIdLabel = itemIdLabel();
+    final JTextField itemIdField = itemIdField();
+    final JLabel stopPriceLabel = stopPriceLabel();
+    final JFormattedTextField stopPriceField = stopPriceField();
+
     JPanel controls = new JPanel(new FlowLayout());
-    final JTextField itemIdField = new JTextField();
-    itemIdField.setColumns(25);
-    itemIdField.setName(NEW_ITEM_ID_NAME);
+    controls.add(itemIdLabel);
     controls.add(itemIdField);
+    controls.add(stopPriceLabel);
+    controls.add(stopPriceField);
 
     JButton joinAuctionButton = new JButton("Join Auction");
     joinAuctionButton.setName(JOIN_BUTTON_NAME);
+
     joinAuctionButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent actionEvent) {
-        userRequests.announce().joinAuction(itemIdField.getText());
+      public void actionPerformed(ActionEvent e) {
+        userRequests.announce().joinAuction(new Item(itemId(), stopPrice()));
+      }
+
+      private String itemId() {
+        return itemIdField.getText();
+      }
+
+      private int stopPrice() {
+        return ((Number) stopPriceField.getValue()).intValue();
       }
     });
     controls.add(joinAuctionButton);
 
     return controls;
+  }
+
+  private JLabel itemIdLabel() {
+    JLabel itemIdLabel = new JLabel();
+    itemIdLabel.setText("Item:");
+    return itemIdLabel;
+  }
+
+  private JTextField itemIdField() {
+    JTextField itemIdField = new JTextField();
+    itemIdField.setColumns(10);
+    itemIdField.setName(NEW_ITEM_ID_NAME);
+    return itemIdField;
+  }
+
+  private JLabel stopPriceLabel() {
+    JLabel stopPriceLabel = new JLabel();
+    stopPriceLabel.setText("Stop price:");
+    return stopPriceLabel;
+  }
+
+  private JFormattedTextField stopPriceField() {
+    JFormattedTextField stopPriceField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+    stopPriceField.setColumns(7);
+    stopPriceField.setName(NEW_ITEM_STOP_PRICE_NAME);
+    return stopPriceField;
   }
 
   private void fillContentPane(JTable snipersTable, JPanel controls) {

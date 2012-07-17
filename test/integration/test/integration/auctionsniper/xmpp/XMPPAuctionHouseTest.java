@@ -12,6 +12,7 @@ import test.endtoend.auctionsniper.FakeAuctionServer;
 
 import java.util.concurrent.CountDownLatch;
 
+import static auctionsniper.UserRequestListener.Item;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertTrue;
 
@@ -38,7 +39,7 @@ public class XMPPAuctionHouseTest {
   public void receivesEventsFromAuctionServerAfterJoining() throws Exception {
     CountDownLatch auctionWasClosed = new CountDownLatch(1);
 
-    Auction auction = auctionHouse.auctionFor(server.getItemId());
+    Auction auction = auctionHouse.auctionFor(new Item(server.getItemId(), 567));
     auction.addAuctionEventListener(auctionClosedListener(auctionWasClosed));
 
     auction.join();

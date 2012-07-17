@@ -5,6 +5,8 @@ import auctionsniper.AuctionHouse;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
+import static auctionsniper.UserRequestListener.Item;
+
 public class XMPPAuctionHouse implements AuctionHouse {
   public static final String AUCTION_RESOURCE = "Auction";
   public static final String ITEM_ID_AS_LOGIN = "auction-%s";
@@ -25,12 +27,12 @@ public class XMPPAuctionHouse implements AuctionHouse {
   }
 
   @Override
-  public Auction auctionFor(String itemId) {
-    return new XMPPAuction(connection, auctionId(itemId));
+  public Auction auctionFor(Item item) {
+    return new XMPPAuction(connection, auctionId(item));
   }
 
-  private String auctionId(String itemId) {
-    return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
+  private String auctionId(Item item) {
+    return String.format(AUCTION_ID_FORMAT, item.identifier, connection.getServiceName());
   }
 
   @Override
